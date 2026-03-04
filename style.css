@@ -1,0 +1,554 @@
+/* --- Variable Definitions --- */
+:root {
+    --font-family: 'Inter', sans-serif;
+
+    /* Dark Theme Colors */
+    --bg-gradient-start-dark: #4e3a75;
+    --bg-gradient-end-dark: #2c2141;
+    --calculator-bg-dark: rgba(44, 33, 65, 0.4);
+    --button-bg-dark: rgba(255, 255, 255, 0.07);
+    --button-hover-bg-dark: rgba(255, 255, 255, 0.15);
+    --text-color-primary-dark: #ffffff;
+    --text-color-secondary-dark: #c0b8d0;
+    --operator-color-dark: #e8a0ff;
+    --equals-bg-dark: #e8a0ff;
+    --equals-hover-bg-dark: #d980ff;
+    --equals-text-dark: #3a2d5c;
+
+    /* Light Theme Colors */
+    --bg-gradient-start-light: #f3eefc;
+    --bg-gradient-end-light: #dcd3e9;
+    --calculator-bg-light: rgba(255, 255, 255, 0.6);
+    --button-bg-light: rgba(255, 255, 255, 0.5);
+    --button-hover-bg-light: rgba(255, 255, 255, 0.9);
+    --text-color-primary-light: #3a2d5c;
+    --text-color-secondary-light: #5c4b8c;
+    --operator-color-light: #8c52ff;
+    --equals-bg-light: #8c52ff;
+    --equals-hover-bg-light: #7b42f5;
+    --equals-text-light: #ffffff;
+
+    /* AMOLED Theme Colors */
+    --bg-amoled: #000000;
+    --calculator-bg-amoled: rgba(10, 10, 10, 0.8);
+    --button-bg-amoled: rgba(255, 255, 255, 0.05);
+    --button-hover-bg-amoled: rgba(255, 255, 255, 0.12);
+    --text-color-primary-amoled: #ffffff;
+    --text-color-secondary-amoled: #888888;
+    --operator-color-amoled: #00e5ff;
+    --equals-bg-amoled: #00e5ff;
+    --equals-hover-bg-amoled: #00b8d4;
+    --equals-text-amoled: #000000;
+
+    /* Glass Theme Colors */
+    --bg-gradient-start-glass: #667eea;
+    --bg-gradient-end-glass: #764ba2;
+    --calculator-bg-glass: rgba(255, 255, 255, 0.1);
+    --button-bg-glass: rgba(255, 255, 255, 0.1);
+    --button-hover-bg-glass: rgba(255, 255, 255, 0.25);
+    --text-color-primary-glass: #ffffff;
+    --text-color-secondary-glass: rgba(255, 255, 255, 0.7);
+    --operator-color-glass: #ffd700;
+    --equals-bg-glass: rgba(255, 215, 0, 0.8);
+    --equals-hover-bg-glass: rgba(255, 215, 0, 0.95);
+    --equals-text-glass: #1a1a2e;
+}
+
+/* --- Keyframe Animations --- */
+@keyframes gradient-animation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes button-press {
+    0% { opacity: 1; }
+    50% { opacity: 0.4; }
+    100% { opacity: 1; }
+}
+
+@keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fade-out {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+/* --- Base Styles --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+#app {
+  width: 100vw;
+  height: 100vh;
+}
+
+body.dark {
+    background: linear-gradient(135deg, var(--bg-gradient-start-dark), var(--bg-gradient-end-dark));
+    background-size: 200% 200%;
+    animation: gradient-animation 15s ease infinite;
+}
+
+body.light {
+    background: linear-gradient(135deg, var(--bg-gradient-start-light), var(--bg-gradient-end-light));
+    background-size: 200% 200%;
+    animation: gradient-animation 15s ease infinite;
+}
+
+body.amoled {
+    background: var(--bg-amoled);
+}
+
+body.glass {
+    background: linear-gradient(135deg, var(--bg-gradient-start-glass), var(--bg-gradient-end-glass));
+    background-size: 200% 200%;
+    animation: gradient-animation 15s ease infinite;
+}
+
+/* --- Calculator Container --- */
+.calculator-container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 420px;
+    margin: auto;
+    padding: 2rem;
+    border-radius: 2.5rem; /* Softer corners */
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(25px); /* Enhanced glass effect */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: background-color 0.5s ease;
+}
+
+body.dark .calculator-container {
+    background: var(--calculator-bg-dark);
+}
+
+body.light .calculator-container {
+    background: var(--calculator-bg-light);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+}
+
+body.amoled .calculator-container {
+    background: var(--calculator-bg-amoled);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow: none;
+}
+
+body.glass .calculator-container {
+    background: var(--calculator-bg-glass);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(40px);
+}
+
+/* --- Theme Toggle --- */
+.theme-toggle {
+    position: absolute;
+    top: 1.8rem;
+    left: 2rem;
+    cursor: pointer;
+    z-index: 10;
+    opacity: 0.7;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.theme-toggle:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.theme-toggle svg {
+    width: 28px;
+    height: 28px;
+}
+
+body.dark .theme-toggle .sun-icon { display: none; }
+body.dark .theme-toggle .moon-icon { display: block; color: var(--text-color-primary-dark); }
+body.dark .theme-toggle .amoled-icon { display: none; }
+body.dark .theme-toggle .glass-icon { display: none; }
+body.light .theme-toggle .moon-icon { display: none; }
+body.light .theme-toggle .sun-icon { display: block; color: var(--text-color-primary-light); }
+body.light .theme-toggle .amoled-icon { display: none; }
+body.light .theme-toggle .glass-icon { display: none; }
+body.amoled .theme-toggle .moon-icon { display: none; }
+body.amoled .theme-toggle .sun-icon { display: none; }
+body.amoled .theme-toggle .amoled-icon { display: block; color: var(--operator-color-amoled); }
+body.amoled .theme-toggle .glass-icon { display: none; }
+body.glass .theme-toggle .moon-icon { display: none; }
+body.glass .theme-toggle .sun-icon { display: none; }
+body.glass .theme-toggle .amoled-icon { display: none; }
+body.glass .theme-toggle .glass-icon { display: block; color: var(--operator-color-glass); }
+
+/* --- Calculator Screen --- */
+.calculator-screen {
+    width: 100%;
+    text-align: right;
+    padding: 1.5rem 0;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+    height: auto;
+}
+
+.screen-expression {
+    height: 0;
+    display: none;
+}
+
+.screen-result {
+    font-size: 2.2rem; /* Reduced font size */
+    font-weight: 700;
+    line-height: 1.1;
+    transition: color 0.5s ease;
+    min-height: 5rem;
+    max-height: 5rem;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    animation: fade-in 0.3s ease;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    scroll-behavior: smooth;
+    word-break: break-all;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Scrollbar styling */
+.screen-result::-webkit-scrollbar {
+    height: 4px;
+}
+
+.screen-result::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+body.dark .screen-result::-webkit-scrollbar-thumb {
+    background: rgba(232, 160, 255, 0.4);
+    border-radius: 2px;
+}
+
+body.dark .screen-result::-webkit-scrollbar-thumb:hover {
+    background: rgba(232, 160, 255, 0.7);
+}
+
+body.light .screen-result::-webkit-scrollbar-thumb {
+    background: rgba(140, 82, 255, 0.4);
+    border-radius: 2px;
+}
+
+body.light .screen-result::-webkit-scrollbar-thumb:hover {
+    background: rgba(140, 82, 255, 0.7);
+}
+
+body.dark .screen-expression { color: var(--text-color-secondary-dark); }
+body.dark .screen-result { color: var(--text-color-primary-dark); }
+body.light .screen-expression { color: var(--text-color-secondary-light); }
+body.light .screen-result { color: var(--text-color-primary-light); }
+body.amoled .screen-expression { color: var(--text-color-secondary-amoled); }
+body.amoled .screen-result { color: var(--text-color-primary-amoled); }
+body.glass .screen-expression { color: var(--text-color-secondary-glass); }
+body.glass .screen-result { color: var(--text-color-primary-glass); }
+
+/* --- Calculator Buttons --- */
+.calculator-buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+}
+
+.btn {
+    font-family: var(--font-family);
+    font-size: clamp(1.25rem, 5vw, 1.5rem);
+    font-weight: 400;
+    border: none;
+    border-radius: 1.25rem;
+    aspect-ratio: 1 / 1; /* Makes buttons perfectly square */
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.btn:active {
+    animation: button-press 0.3s ease-in-out;
+}
+
+/* Light & Dark Mode Button Styles */
+body.dark .btn {
+    background: var(--button-bg-dark);
+    color: var(--text-color-primary-dark);
+}
+body.dark .btn:hover {
+    background: var(--button-hover-bg-dark);
+}
+body.dark .btn-operator {
+    color: var(--operator-color-dark);
+    font-weight: 300;
+}
+body.dark .btn-equals {
+    background: var(--equals-bg-dark);
+    color: var(--equals-text-dark);
+}
+body.dark .btn-equals:hover {
+    background: var(--equals-hover-bg-dark);
+}
+
+body.light .btn {
+    background: var(--button-bg-light);
+    color: var(--text-color-primary-light);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+body.light .btn:hover {
+    background: var(--button-hover-bg-light);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+body.light .btn-operator {
+    color: var(--operator-color-light);
+}
+body.light .btn-equals {
+    background: var(--equals-bg-light);
+    color: var(--equals-text-light);
+}
+body.light .btn-equals:hover {
+    background: var(--equals-hover-bg-light);
+}
+
+/* AMOLED Theme Button Styles */
+body.amoled .btn {
+    background: var(--button-bg-amoled);
+    color: var(--text-color-primary-amoled);
+}
+body.amoled .btn:hover {
+    background: var(--button-hover-bg-amoled);
+}
+body.amoled .btn-operator {
+    color: var(--operator-color-amoled);
+    font-weight: 300;
+}
+body.amoled .btn-equals {
+    background: var(--equals-bg-amoled);
+    color: var(--equals-text-amoled);
+}
+body.amoled .btn-equals:hover {
+    background: var(--equals-hover-bg-amoled);
+}
+
+/* Glass Theme Button Styles */
+body.glass .btn {
+    background: var(--button-bg-glass);
+    color: var(--text-color-primary-glass);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+}
+body.glass .btn:hover {
+    background: var(--button-hover-bg-glass);
+}
+body.glass .btn-operator {
+    color: var(--operator-color-glass);
+    font-weight: 300;
+}
+body.glass .btn-equals {
+    background: var(--equals-bg-glass);
+    color: var(--equals-text-glass);
+    border: none;
+}
+body.glass .btn-equals:hover {
+    background: var(--equals-hover-bg-glass);
+}
+
+.btn-equals {
+    grid-column: 4 / 5;
+    grid-row: 4 / 6;
+    aspect-ratio: auto; /* Override for the tall equals button */
+    height: auto;
+    border-radius: 1.25rem;
+}
+
+.btn-operator svg {
+    width: 24px;
+    height: 24px;
+}
+
+/* --- History Toggle --- */
+.history-toggle {
+    position: absolute;
+    top: 1.8rem;
+    right: 2rem;
+    cursor: pointer;
+    z-index: 10;
+    opacity: 0.7;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.history-toggle:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+.history-toggle svg {
+    width: 24px;
+    height: 24px;
+}
+body.dark .history-toggle { color: var(--text-color-primary-dark); }
+body.light .history-toggle { color: var(--text-color-primary-light); }
+body.amoled .history-toggle { color: var(--operator-color-amoled); }
+body.glass .history-toggle { color: var(--text-color-primary-glass); }
+
+/* --- History Panel --- */
+.history-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 2.5rem;
+    padding: 2rem;
+    z-index: 20;
+    display: none;
+    flex-direction: column;
+    animation: fade-in 0.25s ease;
+    backdrop-filter: blur(30px);
+}
+.history-panel.open {
+    display: flex;
+}
+body.dark .history-panel {
+    background: rgba(44, 33, 65, 0.95);
+}
+body.light .history-panel {
+    background: rgba(255, 255, 255, 0.95);
+}
+body.amoled .history-panel {
+    background: rgba(0, 0, 0, 0.98);
+}
+body.glass .history-panel {
+    background: rgba(102, 126, 234, 0.85);
+}
+
+.history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+body.dark .history-header { color: var(--text-color-primary-dark); border-color: rgba(255, 255, 255, 0.15); }
+body.light .history-header { color: var(--text-color-primary-light); border-color: rgba(0, 0, 0, 0.15); }
+body.amoled .history-header { color: var(--text-color-primary-amoled); border-color: rgba(255, 255, 255, 0.08); }
+body.glass .history-header { color: var(--text-color-primary-glass); border-color: rgba(255, 255, 255, 0.25); }
+
+.history-close {
+    cursor: pointer;
+    font-size: 1.75rem;
+    line-height: 1;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+.history-close:hover {
+    opacity: 1;
+}
+
+.history-list {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.history-item {
+    padding: 0.75rem 1rem;
+    border-radius: 1rem;
+    text-align: right;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+body.dark .history-item {
+    background: rgba(255, 255, 255, 0.07);
+    color: var(--text-color-primary-dark);
+}
+body.dark .history-item:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+body.light .history-item {
+    background: rgba(0, 0, 0, 0.05);
+    color: var(--text-color-primary-light);
+}
+body.light .history-item:hover {
+    background: rgba(0, 0, 0, 0.1);
+}
+body.amoled .history-item {
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text-color-primary-amoled);
+}
+body.amoled .history-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+body.glass .history-item {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-color-primary-glass);
+}
+body.glass .history-item:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.history-item-expression {
+    font-size: 0.85rem;
+    font-weight: 300;
+    opacity: 0.7;
+    margin-bottom: 0.25rem;
+}
+
+.history-item-result {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.history-empty {
+    text-align: center;
+    opacity: 0.5;
+    padding: 2rem;
+    font-size: 0.9rem;
+}
+body.dark .history-empty { color: var(--text-color-secondary-dark); }
+body.light .history-empty { color: var(--text-color-secondary-light); }
+body.amoled .history-empty { color: var(--text-color-secondary-amoled); }
+body.glass .history-empty { color: var(--text-color-secondary-glass); }
+
+/* AMOLED scrollbar */
+body.amoled .screen-result::-webkit-scrollbar-thumb {
+    background: rgba(0, 229, 255, 0.4);
+    border-radius: 2px;
+}
+body.amoled .screen-result::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 229, 255, 0.7);
+}
+
+/* Glass scrollbar */
+body.glass .screen-result::-webkit-scrollbar-thumb {
+    background: rgba(255, 215, 0, 0.4);
+    border-radius: 2px;
+}
+body.glass .screen-result::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 215, 0, 0.7);
+}
